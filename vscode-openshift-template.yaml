@@ -1,0 +1,167 @@
+#
+# How to run it:
+# $ oc new-app -f vscode-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode
+#
+# OR
+#
+# $ oc process -f vscode-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode | oc create -f -
+#
+####### </ Jeffery Bagirimvano >
+
+apiVersion: v1
+kind: Template
+metadata:
+  name: vscode-template
+  annotations:
+    openshift.io/display-name: "Visual Studio Code in browser" 
+    description: "A distribution of Coder's Visual Studio Code in browser designed to work for CNCF-compliant orchestators."
+    tags: "coder,code,vscode"
+    openshift.io/provider-display-name: "Coder"
+    openshift.io/documentation-url: "https://github.com/codercom/code-server" 
+parameters:
+  - name: NAME
+    description: Name of your application
+    value: vscode
+    required: true
+  - name: URL
+    description: Name of your application
+    required: true
+  - name: CODER_ENABLE_AUTH
+    description: Enable auth
+    value: "true"
+  - name: CODER_PASSWORD
+    description: Provide your own password, else, it defaults to "coder"
+  - name: PVC_STORAGE
+    description: Persistent Volume Claim Storage space
+    value: 10Gi
+
+objects:
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    metadata:
+      name: ${NAME}
+      labels:
+        app: ${NAME}
+    spec:
+      lookupPolicy:
+        local: false
+      tags:
+      - annotations:
+          openshift.io/imported-from: chinodesuuu/coder:openshift
+        from:
+          kind: DockerImage
+          name: chinodesuuu/coder:openshift
+        importPolicy: 
+          scheduled: true
+        name: openshift
+        referencePolicy:
+          type: Source
+
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: ${NAME}-projects
+      labels:
+        app: ${NAME}
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: ${PVC_STORAGE}
+
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      name: ${NAME}
+      labels:
+        app: ${NAME}
+    spec:
+      replicas: 1
+      selector:
+        app: ${NAME}
+        deploymentconfig: ${NAME}
+      template:
+        metadata:
+          labels:
+            app: ${NAME}
+            deploymentconfig: ${NAME}
+        spec:
+          containers:
+            - name: ${NAME}
+              image: ' '
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: CODER_ENABLE_AUTH
+                  value: "${CODER_ENABLE_AUTH}"
+                - name: CODER_PASSWORD
+                  value: ${CODER_PASSWORD}
+              ports:
+                - containerPort: 9000
+                  protocol: TCP
+              resources: {}
+              volumeMounts:
+                - mountPath: /home/coder/certs
+                  name: ${NAME}-certs
+                - mountPath: /home/coder/projects
+                  name: ${NAME}-projects
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          securityContext: {}
+          volumes:
+            - emptyDir: {}
+              name: ${NAME}-certs
+            - name: ${NAME}-projects
+              persistentVolumeClaim:
+                claimName: ${NAME}-projects
+      test: false
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${NAME}
+            from:
+              kind: ImageStreamTag
+              name: ${NAME}:openshift
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: ${NAME}
+      labels:
+        app: ${NAME}
+    spec:
+      ports:
+        - name: 9000-tcp
+          port: 9000
+          protocol: TCP
+          targetPort: 9000
+      selector:
+        app: ${NAME}
+        deploymentconfig: ${NAME}
+      type: ClusterIP
+
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: ${NAME}
+      labels:
+        app: ${NAME}
+    spec:
+      host: ${URL}
+      port:
+        targetPort: 9000-tcp
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+      to:
+        kind: Service
+        name: ${NAME}
+        weight: 100
+      wildcardPolicy: None
+
+labels:
+  app: "${NAME}"
+  template: "vscode-template"
