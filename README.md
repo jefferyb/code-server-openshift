@@ -30,5 +30,6 @@ Added a few packages that can be used in vs code terminal
    * nodejs
    * python
    * java (jre)
+   * openssh-client
    * oc (OpenShift client)
    * kubectl (Kubernetes client)

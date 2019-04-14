@@ -15,7 +15,8 @@ ENV LANG=en_US.UTF-8 \
 # adding a sane default is needed since we're not erroring out via exec.
     CODER_PASSWORD="coder" \
     oc_version="v3.11.0" \
-    oc_version_commit="0cbc58b"
+    oc_version_commit="0cbc58b" \
+    PATH="${PATH}:/home/coder/.local/bin"
 
 # Change this via --arg in Docker CLI
 ARG CODER_VERSION=1.696-vsc1.33.0
@@ -38,6 +39,7 @@ RUN apt-get update && \
       nodejs \
       python \
       bash-completion \
+      openssh-client \
       default-jre && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* 
