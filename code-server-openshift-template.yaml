@@ -1,10 +1,10 @@
 #
 # How to run it:
-# $ oc new-app -f vscode-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode
+# $ oc new-app -f code-server-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode
 #
 # OR
 #
-# $ oc process -f vscode-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode | oc create -f -
+# $ oc process -f code-server-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode | oc create -f -
 #
 ####### </ Jeffery Bagirimvano >
 
@@ -16,12 +16,17 @@ metadata:
     openshift.io/display-name: "Visual Studio Code in browser" 
     description: "A distribution of Coder's Visual Studio Code in browser designed to work for CNCF-compliant orchestators."
     tags: "coder,code,vscode"
-    openshift.io/provider-display-name: "Coder"
-    openshift.io/documentation-url: "https://github.com/codercom/code-server" 
+    openshift.io/provider-display-name: "Code Server"
+    openshift.io/documentation-url: "https://github.com/jefferyb/code-server-openshift"
 parameters:
   - name: NAME
     description: Name of your application
-    value: vscode
+    value: code-server
+    required: true
+  - name: DOCKER_IMAGE
+    description: Docker image to use
+    value: jefferyb/code-server:latest
+    # value: chinodesuuu/coder:openshift
     required: true
   - name: URL
     description: Name of your application
@@ -47,13 +52,13 @@ objects:
         local: false
       tags:
       - annotations:
-          openshift.io/imported-from: chinodesuuu/coder:openshift
+          openshift.io/imported-from: ${DOCKER_IMAGE}
         from:
           kind: DockerImage
-          name: chinodesuuu/coder:openshift
+          name: ${DOCKER_IMAGE}
         importPolicy: 
           scheduled: true
-        name: openshift
+        name: latest
         referencePolicy:
           type: Source
 
@@ -124,7 +129,7 @@ objects:
               - ${NAME}
             from:
               kind: ImageStreamTag
-              name: ${NAME}:openshift
+              name: ${NAME}:latest
 
   - apiVersion: v1
     kind: Service
