@@ -1,12 +1,13 @@
-# 
+# How to run it:
+#
+#  oc new-app -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/master/code-server-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode
+#
 # ref:
 #   https://github.com/sr229/code-server-openshift
 #   https://github.com/codercom/code-server/releases
 ####### 
 
 FROM ubuntu:latest
-
-
 
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
