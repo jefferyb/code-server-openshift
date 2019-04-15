@@ -24,7 +24,8 @@ ARG CODER_VERSION=1.696-vsc1.33.0
 COPY exec /opt
 
 RUN apt-get update && \
-    apt-get install -y locales && locale-gen en_US.UTF-8 && \
+    apt-get install -y curl locales && locale-gen en_US.UTF-8 && \
+    curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
       sudo \
@@ -41,6 +42,7 @@ RUN apt-get update && \
       bash-completion \
       openssh-client \
       default-jre && \
+    npm install -g npm && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* 
 
@@ -85,6 +87,6 @@ USER 10001
 
 ENTRYPOINT ["/home/coder/entrypoint"]
 
-EXPOSE 9000
+EXPOSE 9000 8080
 
 CMD ["/opt/exec"]

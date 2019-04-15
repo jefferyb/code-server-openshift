@@ -16,8 +16,9 @@ oc process -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/m
 
    * NAME=code-server
    * URL=
-   * CODER_ENABLE_AUTH=true
+   * CONTAINER_HOSTNAME=coder
    * CODER_PASSWORD=coder
+   * CODER_ENABLE_AUTH=true
    * PVC_STORAGE=10Gi
    * DOCKER_IMAGE=jefferyb/code-server:latest
 

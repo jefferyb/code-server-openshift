@@ -23,6 +23,9 @@ parameters:
     description: Name of your application
     value: code-server
     required: true
+  - name: CONTAINER_HOSTNAME
+    description: Hostname of your container
+    value: coder
   - name: DOCKER_IMAGE
     description: Docker image to use
     value: jefferyb/code-server:latest
@@ -92,6 +95,7 @@ objects:
             app: ${NAME}
             deploymentconfig: ${NAME}
         spec:
+          hostname: ${CONTAINER_HOSTNAME}
           containers:
             - name: ${NAME}
               image: ' '
