@@ -77,7 +77,9 @@ RUN mkdir -p projects && mkdir -p certs && \
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && \
     sudo chmod -R g+rw projects/ && \
     sudo chmod -R g+rw certs/ && \
-    sudo chmod -R g+rw .nvm;
+    sudo chmod -R g+rw .nvm && \
+    sudo rm -frv .config/ && \
+    sudo chgrp -R 0 /home/coder
 
 COPY entrypoint /home/coder
 
