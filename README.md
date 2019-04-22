@@ -30,6 +30,7 @@ Added a few packages that can be used in vs code terminal
    * httpie
    * nodejs
    * python
+   * ansible
    * java (jre)
    * openssh-client
    * oc (OpenShift client)

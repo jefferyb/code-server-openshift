@@ -23,8 +23,11 @@ ARG CODER_VERSION=1.696-vsc1.33.0
 
 COPY exec /opt
 
-RUN apt-get update && \
-    apt-get install -y curl locales && locale-gen en_US.UTF-8 && \
+RUN . /etc/lsb-release && \
+    apt-get update && \
+    apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 && \
+    echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu ${DISTRIB_CODENAME} main" > /etc/apt/sources.list.d/ansible-${DISTRIB_CODENAME}.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 && \
     curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
@@ -39,6 +42,7 @@ RUN apt-get update && \
       httpie \
       nodejs \
       python \
+      ansible \
       bash-completion \
       openssh-client \
       default-jre && \
@@ -63,8 +67,8 @@ RUN locale-gen en_US.UTF-8 && \
     echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd && \
     chmod g+rw /home/coder && \
     chmod a+x /opt/exec && \
-    chgrp -R 0 /home/coder && \
-    chmod -R g=u /home/coder && \
+    chgrp -R 0 /home/coder /etc/ansible && \
+    chmod -R g=u /home/coder /etc/ansible && \
     chmod g=u /etc/passwd
     
 ENV LC_ALL=en_US.UTF-8
