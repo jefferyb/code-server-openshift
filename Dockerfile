@@ -45,7 +45,7 @@ RUN . /etc/lsb-release && \
       ansible \
       bash-completion \
       openssh-client \
-      default-jre && \
+      default-jdk && \
     npm install -g npm && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* 

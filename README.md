@@ -27,11 +27,11 @@ oc process -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/m
 Added a few packages that can be used in vs code terminal
 
    * git
+   * java
    * httpie
    * nodejs
    * python
    * ansible
-   * java (jre)
    * openssh-client
    * oc (OpenShift client)
    * kubectl (Kubernetes client)
