@@ -19,7 +19,7 @@ ENV LANG=en_US.UTF-8 \
     PATH="${PATH}:/home/coder/.local/bin"
 
 # Change this via --arg in Docker CLI
-ARG CODER_VERSION=1.696-vsc1.33.0
+ARG CODER_VERSION=1.939-vsc1.33.1
 
 COPY exec /opt
 
@@ -27,7 +27,7 @@ RUN . /etc/lsb-release && \
     apt-get update && \
     apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 && \
     echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu ${DISTRIB_CODENAME} main" > /etc/apt/sources.list.d/ansible-${DISTRIB_CODENAME}.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 && \
+    apt-key adv --recv-keys 93C4A3FD7BB9C367 && \
     curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \

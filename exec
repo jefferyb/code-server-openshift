@@ -83,3 +83,10 @@ if [ -z  "$CODER_ENABLE_AUTH" ]; then
        ;;
     esac
 fi
+
+### Setup VS Code automatically
+if [ -f /home/coder/projects/.setup/setup-vscode ]; then 
+  echo "Running your setup script"
+  cd /home/coder/projects/.setup/
+  /home/coder/projects/.setup/setup-vscode
+fi
