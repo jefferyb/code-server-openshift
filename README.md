@@ -12,6 +12,8 @@ oc new-app -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/m
 oc process -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/master/code-server-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode | oc create -f -
 ```
 
+If we find `/home/coder/projects/.setup/setup-vscode` file in the container, we'll run/execute it to setup VS Code on startup. Useful when a container restarts and want to run a script to it setup automatically
+
 ## Default Parameters
 
    * NAME=code-server
