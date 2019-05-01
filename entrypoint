@@ -7,4 +7,12 @@ export GROUP_ID=$(id -g)
 if [ -w /etc/passwd ]; then
   echo "user:x:$(id -u):$(id -g):user user:${HOME}:/bin/bash" >> /etc/passwd
 fi
+
+### Setup VS Code automatically
+if [ -f /home/coder/projects/.setup/setup-vscode ]; then
+  echo "Running your setup script"
+  cd /home/coder/projects/.setup/
+  ./setup-vscode
+fi
+
 exec "$@"
