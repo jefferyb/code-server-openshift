@@ -52,7 +52,7 @@ RUN . /etc/lsb-release && \
 
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
-    wget -O - https://github.com/codercom/code-server/releases/download/${CODER_VERSION}/code-server${CODER_VERSION}-linux-x64.tar.gz | tar -xzv && \
+    wget -O - https://github.com/cdr/code-server/releases/download/${CODER_VERSION}/code-server${CODER_VERSION}-linux-x64.tar.gz | tar -xzv && \
     chmod -R 755 code-server${CODER_VERSION}-linux-x64/code-server && \
     mv code-server${CODER_VERSION}-linux-x64/code-server /usr/bin/ && \
     rm -rf code-server-${CODER_VERSION}-linux-x64 && \
