@@ -52,6 +52,7 @@ Added a few packages that can be used in vs code terminal
    * nodejs
    * python
    * ansible
+   * python3-pip
    * openssh-client
    * oc (OpenShift client)
    * kubectl (Kubernetes client)
