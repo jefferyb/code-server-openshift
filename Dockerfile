@@ -42,6 +42,8 @@ RUN . /etc/lsb-release && \
       httpie \
       nodejs \
       python \
+      python3-pip \
+      joe \
       ansible \
       bash-completion \
       openssh-client \
