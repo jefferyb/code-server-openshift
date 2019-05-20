@@ -1,6 +1,14 @@
 # How to run it:
 #
-#  oc new-app -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/master/code-server-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode
+# With OpenShift:
+#  $ oc new-app -f https://raw.githubusercontent.com/jefferyb/code-server-openshift/master/code-server-openshift-template.yaml -p URL=vscode.example.com -p CODER_PASSWORD=welcome2vscode
+#
+# With Kubernetes:
+#  $ kubectl run code-server --image=jefferyb/code-server -e CODER_PASSWORD=welcome2vscode
+#
+# With Docker:
+#  $ docker run -itd --name code-server -e CODER_PASSWORD=welcome2vscode -p 9000:9000 -v "${PWD}:/home/coder/project" jefferyb/code-server
+#
 #
 # ref:
 #   https://github.com/sr229/code-server-openshift
@@ -19,7 +27,7 @@ ENV LANG=en_US.UTF-8 \
     PATH="${PATH}:/home/coder/.local/bin"
 
 # Change this via --arg in Docker CLI
-ARG CODER_VERSION=1.939-vsc1.33.1
+ARG CODER_VERSION=1.1099-vsc1.33.1
 
 COPY exec /opt
 
