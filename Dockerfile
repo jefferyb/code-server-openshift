@@ -27,7 +27,7 @@ ENV LANG=en_US.UTF-8 \
     PATH="${PATH}:/home/coder/.local/bin"
 
 # Change this via --arg in Docker CLI
-ARG CODER_VERSION=1.1099-vsc1.33.1
+ARG CODER_VERSION=1.1119-vsc1.33.1
 
 COPY exec /opt
 
@@ -42,6 +42,7 @@ RUN . /etc/lsb-release && \
       sudo \
       openssl \
       net-tools \
+      jq \
       git \
       locales \ 
       curl \
