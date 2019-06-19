@@ -12,7 +12,7 @@
 #
 # ref:
 #   https://github.com/sr229/code-server-openshift
-#   https://github.com/codercom/code-server/releases
+#   https://github.com/cdr/code-server/releases
 ####### 
 
 FROM ubuntu:latest
@@ -27,7 +27,7 @@ ENV LANG=en_US.UTF-8 \
     PATH="${PATH}:/home/coder/.local/bin"
 
 # Change this via --arg in Docker CLI
-ARG CODER_VERSION=1.1119-vsc1.33.1
+ARG CODER_VERSION=1.1156-vsc1.33.1
 
 COPY exec /opt
 
