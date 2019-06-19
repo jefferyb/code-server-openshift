@@ -33,9 +33,8 @@ COPY exec /opt
 
 RUN . /etc/lsb-release && \
     apt-get update && \
-    apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 && \
-    echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu ${DISTRIB_CODENAME} main" > /etc/apt/sources.list.d/ansible-${DISTRIB_CODENAME}.list && \
-    apt-key adv --recv-keys 93C4A3FD7BB9C367 && \
+    apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 software-properties-common && \
+    apt-add-repository --yes --update ppa:ansible/ansible && \
     curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
