@@ -27,7 +27,7 @@ ENV LANG=en_US.UTF-8 \
     PATH="${PATH}:/home/coder/.local/bin"
 
 # Change this via --arg in Docker CLI
-ARG CODER_VERSION=1.1156-vsc1.33.1
+ARG CODER_VERSION=2.1523-vsc1.38.1
 
 COPY exec /opt
 
