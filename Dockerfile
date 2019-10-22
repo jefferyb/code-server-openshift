@@ -33,7 +33,7 @@ COPY exec /opt
 
 RUN . /etc/lsb-release && \
     apt-get update && \
-    apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 software-properties-common && \
+    apt-get install -y curl locales gnupg2 software-properties-common && locale-gen en_US.UTF-8 && \
     apt-add-repository --yes --update ppa:ansible/ansible && \
     curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
     apt-get upgrade -y && \
@@ -62,10 +62,10 @@ RUN . /etc/lsb-release && \
 
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
-    wget -O - https://github.com/cdr/code-server/releases/download/${CODER_VERSION}/code-server${CODER_VERSION}-linux-x64.tar.gz | tar -xzv && \
-    chmod -R 755 code-server${CODER_VERSION}-linux-x64/code-server && \
-    mv code-server${CODER_VERSION}-linux-x64/code-server /usr/bin/ && \
-    rm -rf code-server-${CODER_VERSION}-linux-x64 && \
+    wget -O - https://github.com/cdr/code-server/releases/download/${CODER_VERSION}/code-server${CODER_VERSION}-linux-x86_64.tar.gz | tar -xzv && \
+    chmod -R 755 code-server${CODER_VERSION}-linux-x86_64/code-server && \
+    mv code-server${CODER_VERSION}-linux-x86_64/code-server /usr/bin/ && \
+    rm -rf code-server-${CODER_VERSION}-linux-x86_64 && \
     wget -O - https://github.com/openshift/origin/releases/download/${oc_version}/openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit.tar.gz | tar -xzv && \
     mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/oc /usr/bin/ && \
     mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/kubectl /usr/bin/ && \
