@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export HOME=/home/coder
+export PASSWORD=${CODER_PASSWORD}
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 
@@ -8,11 +9,22 @@ if [ -w /etc/passwd ]; then
   echo "user:x:$(id -u):$(id -g):user user:${HOME}:/bin/bash" >> /etc/passwd
 fi
 
+### Display code-server version:
+echo
+echo "----------------------------------------------"
+echo "[ INFO ] Current code-server version: "
+code-server --version
+echo "----------------------------------------------"
+echo
+
 ### Setup VS Code automatically
 if [ -f /home/coder/projects/.setup/setup-vscode ]; then
-  echo "Running your setup script"
+  echo
+  echo "----------------------------------------------"
+  echo "[ INFO ] Running your setup script"
   cd /home/coder/projects/.setup/
   ./setup-vscode
+  echo "----------------------------------------------"
 fi
 
 exec "$@"

@@ -26,9 +26,6 @@ ENV LANG=en_US.UTF-8 \
     oc_version_commit="0cbc58b" \
     PATH="${PATH}:/home/coder/.local/bin"
 
-# Change this via --arg in Docker CLI
-ARG CODER_VERSION=2.1523-vsc1.38.1
-
 COPY exec /opt
 
 RUN . /etc/lsb-release && \
@@ -62,10 +59,9 @@ RUN . /etc/lsb-release && \
 
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
-    wget -O - https://github.com/cdr/code-server/releases/download/${CODER_VERSION}/code-server${CODER_VERSION}-linux-x86_64.tar.gz | tar -xzv && \
-    chmod -R 755 code-server${CODER_VERSION}-linux-x86_64/code-server && \
-    mv code-server${CODER_VERSION}-linux-x86_64/code-server /usr/bin/ && \
-    rm -rf code-server-${CODER_VERSION}-linux-x86_64 && \
+    wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux")) | .browser_download_url') | tar -xzv && \
+    mv code-server*linux-x86_64/code-server /usr/bin/ && \
+    rm -fr code-server*linux-x86_64 && \
     wget -O - https://github.com/openshift/origin/releases/download/${oc_version}/openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit.tar.gz | tar -xzv && \
     mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/oc /usr/bin/ && \
     mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/kubectl /usr/bin/ && \
