@@ -3,6 +3,11 @@ An OpenShift Template to run a distribution of Coder's [Visual Studio Code in br
 
 Based on [https://github.com/sr229/code-server-openshift](https://github.com/sr229/code-server-openshift) and [https://github.com/codercom/code-server/releases](https://github.com/codercom/code-server/releases)
 
+
+## Docker images
+
+The `latest` tag is updated weekly using the [latest code-server release](https://github.com/codercom/code-server/releases)
+
 ## Running
 ### Using Openshift CLI
 ```bash
@@ -52,6 +57,7 @@ Added a few packages that can be used in vs code terminal
    * nodejs
    * python
    * ansible
+   * OpenVPN
    * python3-pip
    * openssh-client
    * oc (OpenShift client)

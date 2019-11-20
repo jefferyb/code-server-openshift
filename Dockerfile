@@ -9,6 +9,10 @@
 # With Docker:
 #  $ docker run -itd --name code-server -e CODER_PASSWORD=welcome2vscode -p 9000:9000 -v "${PWD}:/home/coder/project" jefferyb/code-server
 #
+### OpenVPN
+# If you want to use OpenVPN, add '--cap-add=NET_ADMIN' to your docker command or uncomment the vpn section in the openshift template
+# have your client config file at /home/coder/projects/.openvpn/openvpn-client-conf.ovpn
+# and connect using, "sudo /usr/sbin/openvpn --config /home/coder/projects/.openvpn/openvpn-client-conf.ovpn"
 #
 # ref:
 #   https://github.com/sr229/code-server-openshift
@@ -38,6 +42,7 @@ RUN . /etc/lsb-release && \
       sudo \
       openssl \
       net-tools \
+      openvpn \
       jq \
       git \
       locales \ 
@@ -59,15 +64,23 @@ RUN . /etc/lsb-release && \
 
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
+# install code-server
     wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux")) | .browser_download_url') | tar -xzv && \
     mv code-server*linux-x86_64/code-server /usr/bin/ && \
     rm -fr code-server*linux-x86_64 && \
+# install openshift/kubernetes client tools
     wget -O - https://github.com/openshift/origin/releases/download/${oc_version}/openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit.tar.gz | tar -xzv && \
     mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/oc /usr/bin/ && \
     mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/kubectl /usr/bin/ && \
     rm -fr openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit* && \
     /usr/bin/oc completion bash >> /etc/bash_completion.d/oc_completion && \
     /usr/bin/kubectl completion bash >> /etc/bash_completion.d/kubectl_completion && \
+# for openvpn
+    mkdir -p /dev/net && \
+    mknod /dev/net/tun c 10 200 && \
+    chmod 600 /dev/net/tun && \
+    echo "user ALL=(ALL) NOPASSWD: /usr/sbin/openvpn --config /home/coder/projects/.openvpn/openvpn-client-conf.ovpn" >> /etc/sudoers.d/openvpn-client && \
+# add user coder
     adduser --disabled-password --gecos '' coder && \
     echo '%sudo ALL=(ALL:ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd && \
