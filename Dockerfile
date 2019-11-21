@@ -17,6 +17,7 @@
 # ref:
 #   https://github.com/sr229/code-server-openshift
 #   https://github.com/cdr/code-server/releases
+#   https://caveofcode.com/2017/06/how-to-setup-a-vpn-connection-from-inside-a-pod-in-kubernetes/
 ####### 
 
 FROM ubuntu:latest
@@ -88,8 +89,8 @@ RUN locale-gen en_US.UTF-8 && \
     chmod a+x /opt/exec && \
     chgrp -R 0 /home/coder /etc/ansible && \
     chmod -R g=u /home/coder /etc/ansible && \
-    chmod g=u /etc/passwd
-    
+    chmod g=u /etc/passwd /etc/resolv.conf /etc/ssl/certs/ca-certificates.crt
+
 ENV LC_ALL=en_US.UTF-8
 
 WORKDIR /home/coder
