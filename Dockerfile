@@ -46,6 +46,7 @@ RUN . /etc/lsb-release && \
       openvpn \
       jq \
       git \
+      tree \
       locales \ 
       curl \
       dumb-init \
@@ -88,7 +89,7 @@ RUN locale-gen en_US.UTF-8 && \
     chmod g+rw /home/coder && \
     chmod a+x /opt/exec && \
     chgrp -R 0 /home/coder /etc/ansible && \
-    chmod -R g=u /home/coder /etc/ansible && \
+    chmod -R g=u /home/coder /etc/ansible /etc/resolv.conf && \
     chmod g=u /etc/passwd /etc/resolv.conf /etc/ssl/certs/ca-certificates.crt
 
 ENV LC_ALL=en_US.UTF-8
