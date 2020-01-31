@@ -37,7 +37,7 @@ RUN . /etc/lsb-release && \
     apt-get update && \
     apt-get install -y curl locales gnupg2 software-properties-common && locale-gen en_US.UTF-8 && \
     apt-add-repository --yes --update ppa:ansible/ansible && \
-    curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
       sudo \
@@ -67,7 +67,7 @@ RUN . /etc/lsb-release && \
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
 # install code-server
-    wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux")) | .browser_download_url') | tar -xzv && \
+    wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux-x86_64")) | .browser_download_url') | tar -xzv && \
     mv code-server*linux-x86_64/code-server /usr/bin/ && \
     rm -fr code-server*linux-x86_64 && \
 # install openshift/kubernetes client tools
