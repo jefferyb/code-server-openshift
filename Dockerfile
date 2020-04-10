@@ -67,14 +67,10 @@ RUN . /etc/lsb-release && \
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
 # install code-server
-    wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux-x86_64")) | .browser_download_url') | tar -xzv && \
-    mv code-server*linux-x86_64/code-server /usr/bin/ && \
-    rm -fr code-server*linux-x86_64 && \
+    wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux-x86_64")) | .browser_download_url') | tar -xzv --strip 1 -C /usr/local/bin/ && \
 # install openshift/kubernetes client tools
-    wget -O - https://github.com/openshift/origin/releases/download/${oc_version}/openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit.tar.gz | tar -xzv && \
-    mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/oc /usr/bin/ && \
-    mv openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/kubectl /usr/bin/ && \
-    rm -fr openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit* && \
+    wget -O - https://github.com/openshift/origin/releases/download/${oc_version}/openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit.tar.gz | tar -xzv --strip 1 openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/oc openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/kubectl && \
+    mv oc kubectl /usr/bin/ && \
     /usr/bin/oc completion bash >> /etc/bash_completion.d/oc_completion && \
     /usr/bin/kubectl completion bash >> /etc/bash_completion.d/kubectl_completion && \
 # for openvpn
@@ -99,7 +95,7 @@ WORKDIR /home/coder
 USER coder
 
 RUN mkdir -p projects && mkdir -p certs && \
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.35.3/install.sh | bash && \
     sudo chmod -R g+rw projects/ && \
     sudo chmod -R g+rw certs/ && \
     sudo chmod -R g+rw .nvm && \
