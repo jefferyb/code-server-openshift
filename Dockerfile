@@ -33,9 +33,9 @@ COPY exec /opt
 
 RUN . /etc/lsb-release && \
     apt-get update && \
-    apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 software-properties-common && \
+    apt-get install -y curl locales gnupg2 software-properties-common && locale-gen en_US.UTF-8 && \
     apt-add-repository --yes --update ppa:ansible/ansible && \
-    curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
       sudo \
