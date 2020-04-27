@@ -20,6 +20,7 @@ FROM ubuntu:latest
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
+    TZ=America/Los_Angeles \
 # adding a sane default is needed since we're not erroring out via exec.
     CODER_PASSWORD="coder" \
     oc_version="v3.11.0" \
@@ -33,10 +34,9 @@ COPY exec /opt
 
 RUN . /etc/lsb-release && \
     apt-get update && \
-    apt-get install -y curl locales gnupg2 && locale-gen en_US.UTF-8 && \
-    echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu ${DISTRIB_CODENAME} main" > /etc/apt/sources.list.d/ansible-${DISTRIB_CODENAME}.list && \
-    apt-key adv --recv-keys 93C4A3FD7BB9C367 && \
-    curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
+    export DEBIAN_FRONTEND=noninteractive && ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    apt-get install -y curl locales gnupg2 tzdata && locale-gen en_US.UTF-8 && \
+    curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
       sudo \
