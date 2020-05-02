@@ -6,19 +6,19 @@
 # check for $CODER_ENABLE_AUTH.
 if [ -z  "$CODER_ENABLE_AUTH" ]; then
    if [ -z  "$CODER_ENABLE_TLS" ]; then
-      /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects;
+      /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects;
    elif [ -n "$CODER_ENABLE_TLS" ]; then
       case "$CODER_ENABLE_TLS" in
         true)
             echo "WARNING: Make sure you mounted your Certificates in /home/coder/certs!"
             echo "your cert should be named 'coder.crt' and 'coder.key', else the script won't recognize it."
-            /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
+            /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
             ;;
         false)
-            /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+            /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects
             ;;
         *)
-            /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+            /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects
             ;;
         esac
     fi
@@ -26,57 +26,57 @@ if [ -z  "$CODER_ENABLE_AUTH" ]; then
     case "$CODER_ENABLE_AUTH" in
        true)
         if [ -z  "$CODER_ENABLE_TLS" ]; then
-           /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 --auth password --password="$CODER_PASSWORD" /home/coder/projects;
+           /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 --auth password --password="$CODER_PASSWORD" /home/coder/projects;
         elif [ -n "$CODER_ENABLE_TLS" ]; then
            case "$CODER_ENABLE_TLS" in
              true)
               echo "WARNING: Make sure you mounted your Certificates in /home/coder/certs!"
               echo "your cert should be named 'coder.crt' and 'coder.key', else the script won't recognize it."
-              PASSWORD="$CODER_PASSWORD" /usr/local/bin/code-server --auth password --disable-ssh --host 0.0.0.0 --port=9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
+              PASSWORD="$CODER_PASSWORD" /usr/local/bin/code-server --auth password --bind-addr 0.0.0.0:9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
               ;;
             false)
-              PASSWORD="$CODER_PASSWORD" /usr/local/bin/code-server --auth password --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+              PASSWORD="$CODER_PASSWORD" /usr/local/bin/code-server --auth password --bind-addr 0.0.0.0:9000 /home/coder/projects
               ;;
             *)
-              PASSWORD="$CODER_PASSWORD" /usr/local/bin/code-server --auth password --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+              PASSWORD="$CODER_PASSWORD" /usr/local/bin/code-server --auth password --bind-addr 0.0.0.0:9000 /home/coder/projects
               ;;
            esac
          fi
        ;;
     false)
         if [ -z  "$CODER_ENABLE_TLS" ]; then
-           /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects;
+           /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects;
         elif [ -n "$CODER_ENABLE_TLS" ]; then
            case "$CODER_ENABLE_TLS" in
              true)
               echo "WARNING: Make sure you mounted your Certificates in /home/coder/certs!"
               echo "your cert should be named 'coder.crt' and 'coder.key', else the script won't recognize it."
-              /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
+              /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
               ;;
             false)
-              /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+              /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects
               ;;
             *)
-              /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+              /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects
               ;;
            esac
          fi
        ;;
     *)
         if [ -z  "$CODER_ENABLE_TLS" ]; then
-           /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects;
+           /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects;
         elif [ -n "$CODER_ENABLE_TLS" ]; then
            case "$CODER_ENABLE_TLS" in
              true)
               echo "WARNING: Make sure you mounted your Certificates in /home/coder/certs!"
               echo "your cert should be named 'coder.crt' and 'coder.key', else the script won't recognize it."
-              /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
+              /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 --cert=/home/coder/certs/coder.crt --cert-key=/home/coder/certs/coder.key /home/coder/projects
               ;;
             false)
-              /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+              /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects
               ;;
             *)
-              /usr/local/bin/code-server --disable-ssh --host 0.0.0.0 --port=9000 /home/coder/projects
+              /usr/local/bin/code-server --bind-addr 0.0.0.0:9000 /home/coder/projects
               ;;
            esac
          fi

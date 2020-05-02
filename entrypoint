@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export HOME=/home/coder
 export PASSWORD=${CODER_PASSWORD}
@@ -22,7 +22,7 @@ if [ -f /home/coder/projects/.setup/setup-vscode ]; then
   echo
   echo "----------------------------------------------"
   echo "[ INFO ] Running your setup script"
-  cd /home/coder/projects/.setup/
+  cd /home/coder/projects/.setup/ || return
   ./setup-vscode
   echo "----------------------------------------------"
 fi
