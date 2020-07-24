@@ -38,7 +38,7 @@ RUN . /etc/lsb-release && \
     apt-get update && \
     export DEBIAN_FRONTEND=noninteractive && ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime && \
     apt-get install -y curl locales gnupg2 tzdata && locale-gen en_US.UTF-8 && \
-    curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_current.x | bash - && \
     apt-get upgrade -y && \
     apt-get install -y  \
       sudo \
@@ -68,7 +68,7 @@ RUN . /etc/lsb-release && \
 RUN locale-gen en_US.UTF-8 && \
     cd /tmp && \
 # install code-server
-    wget -O - $(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("linux-x86_64")) | .browser_download_url') | tar -xzv --strip 1 -C /usr/local/bin/ && \
+    ansible localhost -m apt -a "deb=$(curl -s https://api.github.com/repos/cdr/code-server/releases/latest |  jq -r '.assets[] | select(.browser_download_url | contains("amd64.deb")) | .browser_download_url')" && \
 # install openshift/kubernetes client tools
     wget -O - https://github.com/openshift/origin/releases/download/${oc_version}/openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit.tar.gz | tar -xzv --strip 1 openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/oc openshift-origin-client-tools-${oc_version}-${oc_version_commit}-linux-64bit/kubectl && \
     mv oc kubectl /usr/bin/ && \
